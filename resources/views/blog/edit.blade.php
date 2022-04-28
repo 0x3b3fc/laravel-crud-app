@@ -21,7 +21,7 @@
                                 </ul>
                             </div><br />
                         @endif
-                        <form action="{{ url('posts/'.$post->id) }}" method="post">
+                        <form action="{{ url('posts/'.$post->id) }}" method="post" enctype="multipart/form-data">
                             @csrf
                             @method('PUT')
                             <div class="form-group mb-3">
@@ -37,6 +37,11 @@
                             <div class="form-group mb-3">
                                 <label for="status">Status</label>
                                 <input id="status" type="checkbox" value="{!! $post->status ==1 ?'checked':'' !!} " name="status"> 1=Show, 0=Hide
+                            </div>
+
+                            <div class="form-group mb-3">
+                                <label for="image">Image (File Upload)</label>
+                                <input id="image" type="file" class="form-control" name="image" required>
                             </div>
 
                             <div class="form-group mb-3">

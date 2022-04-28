@@ -24,6 +24,7 @@
                                         <td>ID</td>
                                         <td>Title</td>
                                         <td>Author</td>
+                                        <td>Image</td>
                                         <td>Status</td>
                                         <td>Edit</td>
                                         <td >Delete</td>
@@ -35,6 +36,9 @@
                                             <td>{{$p->id}}</td>
                                             <td>{{$p->title}}</td>
                                             <td>{{$p->users->name}}</td>
+                                            <td>
+                                                <img src="{{ asset('uploads/blog/'.$p->image) }}" alt="image" width="50" height="50">
+                                            </td>
                                             <td>{{$p->status}}</td>
                                             <td><a href="{{ route('posts.edit', $p->id)}}" class="btn btn-primary">Edit</a></td>
                                             <td>

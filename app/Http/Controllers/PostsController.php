@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 
 class PostsController extends Controller
 {
@@ -42,6 +43,20 @@ class PostsController extends Controller
         $post->user_id = Auth::id();
         $post->title = $request->input('title');
         $post->description = $request->input('description');
+
+        if ($request->hasfile('image'))
+        {
+            $file = $request->file('image');
+
+            $extention = $file->getClientOriginalExtension();
+            $fileName = time() . '.' . $extention;
+
+            $file->move('uploads/blog/', $fileName);
+
+            $post->image = $fileName;
+
+        }
+
         $post->status = $request->input('status') == true ? '1':'0';
         $post->save();
         return redirect('posts')->with('status','post saved Successfully');
@@ -86,6 +101,25 @@ class PostsController extends Controller
         $post->user_id = Auth::id();
         $post->title = $request->input('title');
         $post->description = $request->input('description');
+
+        if ($request->hasfile('image'))
+        {
+            $destination_path = 'uploads/blog/'.$post->image;
+            if (File::exists($destination_path)){
+                File::delete($destination_path);
+            }
+
+            $file = $request->file('image');
+
+            $extention = $file->getClientOriginalExtension();
+            $fileName = time() . '.' . $extention;
+
+            $file->move('uploads/blog/', $fileName);
+
+            $post->image = $fileName;
+
+        }
+
         $post->status = $request->input('status') == true ? '1':'0';
         $post->update();
         return redirect('posts')->with('status','post Updated Successfully');
